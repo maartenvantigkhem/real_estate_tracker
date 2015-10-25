@@ -1,0 +1,52 @@
+%h1
+	Properties
+
+%hr
+
+%table
+	%thead
+		%tr
+			%th	ID
+			%th Address
+			%th City
+			%th State
+			%th Zip
+			%th Monthly Rental Income
+			%th Down Payment Percent
+			%th Sale Price
+			%th Operating Expenses Percent
+			%th Vacancy Percent
+			%th Loan Interest Percent
+			%th Loan Length Years
+			%th Sales Commission Percent
+			%th Actions
+	%tbody
+		- @properties.each do |property|
+			%tr
+				%td 
+					= property.id
+				%td
+					= property.address
+				%td
+					= property.city
+				%td
+					= property.state
+				%td 
+					= property.zip
+				%td 
+					= property.monthly_rental_income
+				%td 
+					= property.down_payment_percent
+				%td
+					= property.sale_price
+				%td
+					= property.operating_expenses_percent
+				%td
+					= property.vacancy_percent
+				%td
+					= property.loan_interest_percent
+				%td
+					= property.loan_length_years
+				%td
+					= property.sales_commission_percent
+				%td
