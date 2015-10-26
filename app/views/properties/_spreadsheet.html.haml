@@ -109,7 +109,7 @@
 
                         - (1..Property::NUM_YEARS_TO_HOLD + 1).each do |year|
                             %td
-                                = number_with_precision(@property.cash_on_cash(year) * 100, precision: 2, delimiter: ',')
+                                = number_with_precision(@property.cash_on_cash(year) * 100, precision: 2, delimiter: ',') + '%'
 
 
 
