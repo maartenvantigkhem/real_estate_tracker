@@ -2,7 +2,7 @@ def money (x)
   sprintf("%05.2f", x)
 end
 
-balance = 150000
+balance = 8568788
 annual_rate = 6.to_f * 0.01
 monthly_rate = annual_rate / 12.to_f
 loan_years = 15
