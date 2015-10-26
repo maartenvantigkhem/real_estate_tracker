@@ -1,52 +1,69 @@
-%h1
-	Properties
+.row
+	%h1
+		All Properties
 
-%hr
+.row
+	%hr
 
-%table
-	%thead
-		%tr
-			%th	ID
-			%th Address
-			%th City
-			%th State
-			%th Zip
-			%th Monthly Rental Income
-			%th Down Payment Percent
-			%th Sale Price
-			%th Operating Expenses Percent
-			%th Vacancy Percent
-			%th Loan Interest Percent
-			%th Loan Length Years
-			%th Sales Commission Percent
-			%th Actions
-	%tbody
-		- @properties.each do |property|
-			%tr
-				%td 
-					= property.id
-				%td
-					= property.address
-				%td
-					= property.city
-				%td
-					= property.state
-				%td 
-					= property.zip
-				%td 
-					= property.monthly_rental_income
-				%td 
-					= property.down_payment_percent
-				%td
-					= property.sale_price
-				%td
-					= property.operating_expenses_percent
-				%td
-					= property.vacancy_percent
-				%td
-					= property.loan_interest_percent
-				%td
-					= property.loan_length_years
-				%td
-					= property.sales_commission_percent
-				%td
+.row
+	%p
+		= link_to 'Add Property', new_property_path, :class => 'btn btn-primary pull-right'
+
+%br
+
+.row
+	.table-responsive
+		%table.table.table-striped.table-bordered.table-hover
+			%thead
+				%tr
+					%th	ID
+					%th Address
+					%th Purchase Price
+					%th Monthly Rental Income
+					%th Gross Rent Multiplier (GRM)
+					%th Monthly Rent / Purchase Price (1% Rule)
+					%th NOI
+					%th Cap Rate
+					%th Pre-tax Income
+					%th NPV
+					%th IRR
+					%th ROI
+					%th ROE
+					%th Cash on Cash
+					%th Actions
+			%tbody
+				- @properties.each do |property|
+					%tr
+						%td 
+							= property.id
+						%td
+							= property.full_address
+						%td
+							= '$' + number_with_delimiter(property.sale_price.to_i, :delimiter => ',')
+						%td 
+							= '$' + number_with_delimiter(property.monthly_rental_income.to_i, :delimiter => ',')
+						%td
+							= number_with_precision(property.gross_rent_multiplier, :precision => 2)
+						%td
+							= number_with_precision((property.monthly_rental_income / property.sale_price) * 100, :precision => 2) + '%'
+						%td
+							= '$' + number_with_delimiter(property.noi(Property::NUM_YEARS_TO_HOLD), :delimiter => ',')
+						%td
+							= number_with_precision(property.cap_rate(Property::NUM_YEARS_TO_HOLD) * 100, :precision => 2) + '%'
+						%td 
+							-#= property.pre_tax_income(Property::NUM_YEARS_TO_HOLD)
+						%td
+						%td
+						%td
+						%td
+						%td
+						%td
+							= link_to 'Edit', (edit_property_path property), :class => 'btn btn-success btn-xs'
+							= link_to 'Delete', (property_path property), :class => 'btn btn-danger btn-xs'
+
+
+
+
+
+
+

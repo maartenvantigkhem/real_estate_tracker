@@ -1,0 +1,62 @@
+= form_for @property, :html => { :class => 'form-horizontal' } do |f|
+
+	.row
+		.col-xs-4
+			%label Address
+			= f.text_field :address, :class => 'form-control'
+
+		.col-xs-4
+			%label City
+			= f.text_field :city, :class => 'form-control'
+
+		.col-xs-4
+			%label State
+			= f.text_field :state, :class => 'form-control'		
+
+	.row
+		.col-xs-4
+			%label Zip
+			= f.text_field :zip, :class => 'form-control'
+	
+		.col-xs-4
+			%label Purchase Price
+			= f.text_field :sale_price, :class => 'form-control'
+
+		.col-xs-4
+			%label Monthly Rental Income
+			= f.text_field :monthly_rental_income, :class => 'form-control'
+
+	.row
+		.col-xs-4
+			%label Down Payment %
+			= f.text_field :down_payment_percent, :class => 'form-control'
+
+		.col-xs-4
+			%label Operating Expenses %
+			= f.text_field :operating_expenses_percent, :class => 'form-control'	
+
+		.col-xs-4
+			%label Vacancy %
+			= f.text_field :vacancy_percent, :class => 'form-control'	
+
+	.row
+		.col-xs-4
+			%label Loan Interest %
+			= f.text_field :loan_interest_percent, :class => 'form-control'	
+
+		.col-xs-4
+			%label Loan Length (Years)
+			= f.text_field :loan_length_years, :class => 'form-control'	
+
+		.col-xs-4
+			%label Sales Commision %
+			= f.text_field :sales_commission_percent, :class => 'form-control'	
+
+	.row
+		.col-xs-12.col-xs-offset-10
+			%br
+			%input{ :type => 'submit', :value => 'Save', :class => 'btn btn-primary'}
+			&nbsp;
+			= link_to 'Cancel', properties_path
+
+
