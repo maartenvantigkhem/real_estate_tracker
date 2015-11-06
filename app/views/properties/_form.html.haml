@@ -29,28 +29,50 @@
 	.row
 		.col-xs-4
 			%label Down Payment %
-			= f.text_field :down_payment_percent, :class => 'form-control'
+			= f.text_field :down_payment_percent, :class => 'form-control', :placeholder => '30'
 
 		.col-xs-4
 			%label Operating Expenses %
-			= f.text_field :operating_expenses_percent, :class => 'form-control'	
+			= f.text_field :operating_expenses_percent, :class => 'form-control', :placeholder => '30'	
 
 		.col-xs-4
 			%label Vacancy %
-			= f.text_field :vacancy_percent, :class => 'form-control'	
+			= f.text_field :vacancy_percent, :class => 'form-control', :placeholder => '7'	
 
 	.row
 		.col-xs-4
 			%label Loan Interest %
-			= f.text_field :loan_interest_percent, :class => 'form-control'	
+			= f.text_field :loan_interest_percent, :class => 'form-control', :placeholder => '3.49'
 
 		.col-xs-4
 			%label Loan Length (Years)
-			= f.text_field :loan_length_years, :class => 'form-control'	
+			= f.text_field :loan_length_years, :class => 'form-control', :placeholder => '30'
 
 		.col-xs-4
 			%label Sales Commision %
-			= f.text_field :sales_commission_percent, :class => 'form-control'	
+			= f.text_field :sales_commission_percent, :class => 'form-control', :placeholder => '3'
+
+	.row
+		.col-xs-4
+			%label Posting Url
+			= f.text_field :posting_url, :class => 'form-control'
+
+		.col-xs-4
+			%label Years to hold
+			= f.text_field :num_years_to_hold, :class => 'form-control', :placeholder => '5'
+
+		.col-xs-4
+			%label Rent Price Increase %
+			= f.text_field :rent_price_increase_percent, :class => 'form-control', :placeholder => '3'
+
+	.row
+		.col-xs-4
+			%label Tax Rate %
+			= f.text_field :tax_rate_percent, :class => 'form-control', :placeholder => '33'
+
+		.col-xs-4
+
+		.col-xs-4
 
 	.row
 		.col-xs-12.col-xs-offset-8

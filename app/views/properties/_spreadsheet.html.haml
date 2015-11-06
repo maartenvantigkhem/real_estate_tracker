@@ -14,41 +14,41 @@
                     %tr
                         %th Years
                         
-                        - (1..Property::NUM_YEARS_TO_HOLD + 1).each do |year|
+                        - (1..@property.num_years_to_hold + 1).each do |year|
                             %th 
                                 = year
                 %tbody
                     %tr.text-bold
                         %td Gross Income
 
-                        - (1..Property::NUM_YEARS_TO_HOLD + 1).each do |year|
+                        - (1..@property.num_years_to_hold + 1).each do |year|
                             %td
                                 = '$' + number_with_precision(@property.gross_income(year), precision: 2, delimiter: ',')
                     %tr
                         %td (Vacancy)
 
-                        - (1..Property::NUM_YEARS_TO_HOLD + 1).each do |year|
+                        - (1..@property.num_years_to_hold + 1).each do |year|
                             %td
                                 = '$' + number_with_precision(@property.vacancy(year), precision: 2, delimiter: ',')
                     %tr
                         %td.bottom-border
                             (Operating Expenses)
 
-                        - (1..Property::NUM_YEARS_TO_HOLD + 1).each do |year|
+                        - (1..@property.num_years_to_hold + 1).each do |year|
                             %td.bottom-border
                                 = '$' + number_with_precision(@property.operating_expenses(year), precision: 2, delimiter: ',')
                     
                     %tr.text-bold
                         %td NOI
 
-                        - (1..Property::NUM_YEARS_TO_HOLD + 1).each do |year|
+                        - (1..@property.num_years_to_hold + 1).each do |year|
                             %td
                                 = '$' + number_with_precision(@property.noi(year), precision: 2, delimiter: ',')
                             
                     %tr
                         %td (Depreciation)
 
-                        - (1..Property::NUM_YEARS_TO_HOLD + 1).each do |year|
+                        - (1..@property.num_years_to_hold + 1).each do |year|
                             %td
                                 = '$' + number_with_precision(@property.depreciation, precision: 2, delimiter: ',')
                     
@@ -56,14 +56,14 @@
                         %td.bottom-border 
                             (Interest Expense)
 
-                        - (1..Property::NUM_YEARS_TO_HOLD + 1).each do |year|
+                        - (1..@property.num_years_to_hold + 1).each do |year|
                             %td.bottom-border
                                 = '$' + number_with_precision(@property.interest_expense(year), precision: 2, delimiter: ',')
                     
                     %tr.text-bold
                         %td Pre-Tax Income
 
-                        - (1..Property::NUM_YEARS_TO_HOLD + 1).each do |year|
+                        - (1..@property.num_years_to_hold + 1).each do |year|
                             %td
                                 = '$' + number_with_precision(@property.pre_tax_income(year), precision: 2, delimiter: ',')
 
@@ -71,21 +71,21 @@
                         %td.bottom-border 
                             Taxes
 
-                        - (1..Property::NUM_YEARS_TO_HOLD + 1).each do |year|
+                        - (1..@property.num_years_to_hold + 1).each do |year|
                             %td.bottom-border 
                                 = '$' + number_with_precision(@property.taxes(year), precision: 2, delimiter: ',')
 
                     %tr.text-bold
                         %td After-Tax Income
 
-                        - (1..Property::NUM_YEARS_TO_HOLD + 1).each do |year|
+                        - (1..@property.num_years_to_hold + 1).each do |year|
                             %td
                                 = '$' + number_with_precision(@property.after_tax_income(year), precision: 2, delimiter: ',')
 
                     %tr
                         %td Depreciation
 
-                        - (1..Property::NUM_YEARS_TO_HOLD + 1).each do |year|
+                        - (1..@property.num_years_to_hold + 1).each do |year|
                             %td
                                 = '$' + number_with_precision(@property.depreciation, precision: 2, delimiter: ',')
 
@@ -93,21 +93,21 @@
                         %td.bottom-border
                             (Principal)
 
-                        - (1..Property::NUM_YEARS_TO_HOLD + 1).each do |year|
+                        - (1..@property.num_years_to_hold + 1).each do |year|
                             %td.bottom-border
                                 = '$' + number_with_precision(@property.principal(year), precision: 2, delimiter: ',')
 
                     %tr.text-bold
                         %td After-Tax Cash Flow
 
-                        - (1..Property::NUM_YEARS_TO_HOLD + 1).each do |year|
+                        - (1..@property.num_years_to_hold + 1).each do |year|
                             %td
                                 = '$' + number_with_precision(@property.after_tax_cash_flow(year), precision: 2, delimiter: ',')
 
                     %tr
                         %td Cash on Cash
 
-                        - (1..Property::NUM_YEARS_TO_HOLD + 1).each do |year|
+                        - (1..@property.num_years_to_hold + 1).each do |year|
                             %td
                                 = number_with_precision(@property.cash_on_cash(year) * 100, precision: 2, delimiter: ',') + '%'
 

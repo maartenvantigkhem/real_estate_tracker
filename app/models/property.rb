@@ -2,31 +2,35 @@
 #
 # Table name: properties
 #
-#  id                         :integer          not null, primary key
-#  monthly_rental_income      :decimal(, )
-#  down_payment_percent       :decimal(, )
-#  sale_price                 :decimal(, )
-#  operating_expenses_percent :decimal(, )
-#  vacancy_percent            :decimal(, )
-#  loan_interest_percent      :decimal(, )
-#  loan_length_years          :integer
-#  sales_commission_percent   :decimal(, )
-#  created_at                 :datetime         not null
-#  updated_at                 :datetime         not null
-#  address                    :string
-#  city                       :string
-#  state                      :string
-#  zip                        :string
+#  id                          :integer          not null, primary key
+#  monthly_rental_income       :decimal(, )
+#  down_payment_percent        :decimal(, )
+#  sale_price                  :decimal(, )
+#  operating_expenses_percent  :decimal(, )
+#  vacancy_percent             :decimal(, )
+#  loan_interest_percent       :decimal(, )
+#  loan_length_years           :integer
+#  sales_commission_percent    :decimal(, )
+#  created_at                  :datetime         not null
+#  updated_at                  :datetime         not null
+#  address                     :string
+#  city                        :string
+#  state                       :string
+#  zip                         :string
+#  posting_url                 :string
+#  num_years_to_hold           :integer
+#  rent_price_increase_percent :decimal(, )
+#  tax_rate_percent            :decimal(, )
 #
 
 class Property < ActiveRecord::Base
 
-  # TODO: make these inputs
-  RENT_PRICE_INCREASE_PERCENT = 3
-  NUM_YEARS_TO_HOLD = 5
   RESIDENTIAL_DEPRECIATION_YEARS = 27.5
   COMMERCIAL_DEPRECIATION_YEARS = 39
-  TAX_RATE_PERCENT = 33
+
+  validates_presence_of :monthly_rental_income, :down_payment_percent, :sale_price, :operating_expenses_percent,
+    :vacancy_percent, :loan_interest_percent, :loan_length_years, :sales_commission_percent, :num_years_to_hold,
+    :rent_price_increase_percent, :tax_rate_percent
 
   def noi(year)
     gross_income(year) - vacancy(year) - operating_expenses(year)
@@ -50,7 +54,7 @@ class Property < ActiveRecord::Base
 
   def gross_income(year)
     return annual_income if year == 1
-    return gross_income(year - 1) * (1 + (RENT_PRICE_INCREASE_PERCENT.to_f / 100))
+    return gross_income(year - 1) * (1 + (rent_price_increase_percent.to_f / 100))
   end
 
   # TODO: rename sale_price to purchase_price
@@ -120,7 +124,7 @@ class Property < ActiveRecord::Base
   end
 
   def taxes(year)
-    pre_tax_income(year) * (TAX_RATE_PERCENT.to_f / 100)
+    pre_tax_income(year) * (tax_rate_percent.to_f / 100)
   end
 
   def after_tax_income(year)

@@ -34,6 +34,7 @@
 						%th ROI
 						%th ROE
 						%th Cash on Cash
+						%th Link
 						%th Actions
 				%tbody
 					- @properties.each do |property|
@@ -51,16 +52,18 @@
 							%td
 								= number_with_precision((property.monthly_rental_income / property.sale_price) * 100, :precision => 2) + '%'
 							%td
-								= '$' + number_with_delimiter(property.noi(Property::NUM_YEARS_TO_HOLD), :delimiter => ',')
+								= '$' + number_with_precision(property.noi(property.num_years_to_hold), :delimiter => ',', :precision => 2)
 							%td
-								= number_with_precision(property.cap_rate(Property::NUM_YEARS_TO_HOLD) * 100, :precision => 2) + '%'
+								= number_with_precision(property.cap_rate(property.num_years_to_hold) * 100, :precision => 2) + '%'
 							%td 
-								= number_with_precision(property.pre_tax_income(Property::NUM_YEARS_TO_HOLD), :precision => 2)
+								= number_with_precision(property.pre_tax_income(property.num_years_to_hold), :precision => 2)
 							%td
 							%td
 							%td
 							%td
 							%td
+							%td
+								= link_to 'Link', property.posting_url if property.posting_url
 							%td
 								= link_to 'Edit', (edit_property_path property), :class => 'btn btn-success btn-xs'
 								= link_to 'Delete', (property_path property), :class => 'btn btn-danger btn-xs'

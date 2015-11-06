@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151025091059) do
+ActiveRecord::Schema.define(version: 20151105072927) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,12 +25,16 @@ ActiveRecord::Schema.define(version: 20151025091059) do
     t.decimal  "loan_interest_percent"
     t.integer  "loan_length_years"
     t.decimal  "sales_commission_percent"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
     t.string   "address"
     t.string   "city"
     t.string   "state"
     t.string   "zip"
+    t.string   "posting_url"
+    t.integer  "num_years_to_hold"
+    t.decimal  "rent_price_increase_percent"
+    t.decimal  "tax_rate_percent"
   end
 
 end

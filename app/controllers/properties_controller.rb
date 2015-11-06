@@ -16,7 +16,7 @@ class PropertiesController < ApplicationController
       redirect_to edit_property_path @property
     else
       flash.now[:error] = @property.errors.full_messages.to_sentence
-      render :edit 
+      render :new
     end
   end
 
@@ -51,7 +51,10 @@ class PropertiesController < ApplicationController
       :vacancy_percent,
       :loan_interest_percent,
       :loan_length_years,
-      :sales_commission_percent
+      :sales_commission_percent,
+      :num_years_to_hold,
+      :rent_price_increase_percent,
+      :tax_rate_percent
       )
   end
 
