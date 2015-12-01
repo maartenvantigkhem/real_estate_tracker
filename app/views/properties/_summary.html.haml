@@ -1,0 +1,70 @@
+.row
+	.col-xs-12
+		%h2 Summary
+
+.row
+	.col-xs-2
+		%label Down Payment
+
+	.col-xs-1
+		= '$' + number_with_precision(@property.down_payment, :delimiter => ',', :precision => 2)
+
+.row
+	.col-xs-2
+		%label Money Loaned
+
+	.col-xs-1
+		= '$' + number_with_precision(@property.money_loaned, :delimiter => ',', :precision => 2)
+
+.row
+	.col-xs-12
+		&nbsp;
+
+.row
+	.col-xs-2
+		%label Sale Price
+
+	.col-xs-1
+		= '$' + number_with_precision(@property.new_sale_price, :delimiter => ',', :precision => 2)
+
+.row
+	.col-xs-2
+		%label (Sales Commission)
+
+	.col-xs-1
+		= '$' + number_with_precision(@property.sales_commission, :delimiter => ',', :precision => 2)
+
+.row
+	.col-xs-2
+		%label (Cap Gain Tax)
+
+	.col-xs-1
+		= '$' + number_with_precision(@property.cap_gain_tax, :delimiter => ',', :precision => 2)
+
+.row
+	.col-xs-2
+		%label (Recap)
+
+	.col-xs-1
+		= '$' + number_with_precision(@property.recapture, :delimiter => ',', :precision => 2)
+
+.row
+	.col-xs-2
+		%label (Mortgage Balance)
+
+	.col-xs-1
+		= '$' + number_with_precision(@property.mortgage_balance, :delimiter => ',', :precision => 2)
+
+.row
+	.col-xs-2
+		%label After-Tax Proceeds
+
+	.col-xs-1
+		= '$' + number_with_precision(@property.after_tax_proceeds, :delimiter => ',', :precision => 2)
+
+.row
+	&nbsp;
+.row
+	&nbsp;
+.row
+	&nbsp;

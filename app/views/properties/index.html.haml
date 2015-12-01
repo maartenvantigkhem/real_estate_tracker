@@ -54,7 +54,7 @@
 							%td
 								= '$' + number_with_precision(property.noi(property.num_years_to_hold), :delimiter => ',', :precision => 2)
 							%td
-								= number_with_precision(property.cap_rate(property.num_years_to_hold) * 100, :precision => 2) + '%'
+								= number_with_precision(property.cap_rate(property.num_years_to_hold + 1) * 100, :precision => 2) + '%'
 							%td 
 								= number_with_precision(property.pre_tax_income(property.num_years_to_hold), :precision => 2)
 							%td
