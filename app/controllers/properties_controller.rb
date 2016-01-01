@@ -36,6 +36,18 @@ class PropertiesController < ApplicationController
     end
   end
 
+  def destroy
+    property = Property.find params[:id]
+
+    if property.destroy
+      flash[:notice] = 'The record has been deleted.'
+      redirect_to action: :index
+    else
+      flash.now[:error] = 'Error deleting record'
+      render :index
+    end
+  end
+
   private
 
   def property_params

@@ -66,6 +66,7 @@
 								= link_to 'Link', property.posting_url if property.posting_url
 							%td
 								= link_to 'Edit', (edit_property_path property), :class => 'btn btn-success btn-xs'
-								= link_to 'Delete', (property_path property), :class => 'btn btn-danger btn-xs'
+								= link_to 'Delete', (property_path property), method: :delete, :data => { :confirm => 'Are you sure you want to delete this record?'}, :class => 'btn btn-danger btn-xs'
+
 
 
