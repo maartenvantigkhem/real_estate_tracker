@@ -52,6 +52,7 @@ class PropertiesController < ApplicationController
       :loan_interest_percent,
       :loan_length_years,
       :sales_commission_percent,
+      :posting_url,
       :num_years_to_hold,
       :rent_price_increase_percent,
       :tax_rate_percent
