@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151105072927) do
+ActiveRecord::Schema.define(version: 20160101080140) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(version: 20151105072927) do
     t.integer  "num_years_to_hold"
     t.decimal  "rent_price_increase_percent"
     t.decimal  "tax_rate_percent"
+    t.text     "notes"
   end
 
 end

@@ -67,7 +67,8 @@ class PropertiesController < ApplicationController
       :posting_url,
       :num_years_to_hold,
       :rent_price_increase_percent,
-      :tax_rate_percent
+      :tax_rate_percent,
+      :notes
       )
   end
 

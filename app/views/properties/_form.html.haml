@@ -75,6 +75,11 @@
 		.col-xs-4
 
 	.row
+		.col-xs-12
+			%label Notes
+			= f.text_area :notes, size: '50x10', :class => 'form-control'
+
+	.row
 		.col-xs-12.col-xs-offset-8
 			%br
 			%input{ :type => 'submit', :value => 'Save', :class => 'btn btn-primary'}
