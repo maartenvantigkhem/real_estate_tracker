@@ -207,7 +207,7 @@ class Property < ActiveRecord::Base
 
   def irr(min_rate, max_rate, amounts)
     range = max_rate - min_rate
-    raise "No solution" if range <= Float::EPSILON * 2
+    return 0 if range <= Float::EPSILON * 2
 
     rate = range.fdiv(2) + min_rate
     present_value = present_value_of_series(rate, amounts)

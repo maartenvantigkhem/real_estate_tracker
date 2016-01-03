@@ -2,6 +2,8 @@ class PropertiesController < ApplicationController
 
   def index
     @properties = Property.all
+
+    @properties.sort_by {|obj| obj.irr_for_prop }
   end
 
   def new
