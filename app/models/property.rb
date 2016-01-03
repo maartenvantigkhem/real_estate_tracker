@@ -24,7 +24,6 @@
 #
 
 class Property < ActiveRecord::Base
-
   RESIDENTIAL_DEPRECIATION_YEARS = 27.5
   COMMERCIAL_DEPRECIATION_YEARS = 39
   CAP_GAIN_TAX_RATE_PERCENT = 15
@@ -74,10 +73,6 @@ class Property < ActiveRecord::Base
 
   def down_payment
     sale_price * (down_payment_percent.to_f / 100)
-  end
-
-  def estimated_sale_price(year)
-    noi(year) / cap_rate(year)
   end
 
   def full_address

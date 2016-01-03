@@ -3,82 +3,110 @@
 		%h2 Summary
 
 .row
-	.col-xs-2
-		%label Down Payment
+	.col-xs-4
+		.row
+			.col-xs-6
+				%label Down Payment
 
-	.col-xs-1
-		= '$' + number_with_precision(@property.down_payment, :delimiter => ',', :precision => 2)
+			.col-xs-6
+				= '$' + number_with_precision(@property.down_payment, :delimiter => ',', :precision => 2)
 
-.row
-	.col-xs-2
-		%label Money Loaned
+		.row
+			.col-xs-6
+				%label Money Loaned
 
-	.col-xs-1
-		= '$' + number_with_precision(@property.money_loaned, :delimiter => ',', :precision => 2)
+			.col-xs-6
+				= '$' + number_with_precision(@property.money_loaned, :delimiter => ',', :precision => 2)
 
-.row
-	.col-xs-12
-		&nbsp;
+		.row
+			.col-xs-12
+				&nbsp;
 
-.row
-	.col-xs-2
-		%label Sale Price
+		.row
+			.col-xs-6
+				%label Sale Price
 
-	.col-xs-1
-		= '$' + number_with_precision(@property.new_sale_price, :delimiter => ',', :precision => 2)
+			.col-xs-6
+				= '$' + number_with_precision(@property.new_sale_price, :delimiter => ',', :precision => 2)
 
-.row
-	.col-xs-2
-		%label (Sales Commission)
+		.row
+			.col-xs-6
+				%label (Sales Commission)
 
-	.col-xs-1
-		= '$' + number_with_precision(@property.sales_commission, :delimiter => ',', :precision => 2)
+			.col-xs-6
+				= '$' + number_with_precision(@property.sales_commission, :delimiter => ',', :precision => 2)
 
-.row
-	.col-xs-2
-		%label (Cap Gain Tax)
+		.row
+			.col-xs-6
+				%label (Cap Gain Tax)
 
-	.col-xs-1
-		= '$' + number_with_precision(@property.cap_gain_tax, :delimiter => ',', :precision => 2)
+			.col-xs-6
+				= '$' + number_with_precision(@property.cap_gain_tax, :delimiter => ',', :precision => 2)
 
-.row
-	.col-xs-2
-		%label (Recap)
+		.row
+			.col-xs-6
+				%label (Recap)
 
-	.col-xs-1
-		= '$' + number_with_precision(@property.recapture, :delimiter => ',', :precision => 2)
+			.col-xs-6
+				= '$' + number_with_precision(@property.recapture, :delimiter => ',', :precision => 2)
 
-.row
-	.col-xs-2
-		%label (Mortgage Balance)
+		.row
+			.col-xs-6
+				%label (Mortgage Balance)
 
-	.col-xs-1
-		= '$' + number_with_precision(@property.mortgage_balance, :delimiter => ',', :precision => 2)
+			.col-xs-6
+				= '$' + number_with_precision(@property.mortgage_balance, :delimiter => ',', :precision => 2)
 
-.row
-	.col-xs-2
-		%label After-Tax Proceeds
+		.row
+			.col-xs-6
+				%label After-Tax Proceeds
 
-	.col-xs-1
-		= '$' + number_with_precision(@property.after_tax_proceeds, :delimiter => ',', :precision => 2)
+			.col-xs-6
+				= '$' + number_with_precision(@property.after_tax_proceeds, :delimiter => ',', :precision => 2)
 
--#
-	.row
-		.col-xs-2
-			%label NPV
 
-		.col-xs-1
-			= '$' 
+	.col-xs-4
+		.row
+			.col-xs-6
+				%label Monthly Rent / Purchase Price
 
-.row
-	&nbsp;
+			.col-xs-6
+				= number_with_precision(@property.monthly_rental_income / @property.sale_price * 100, :precision => 2) + '%'
+		.row
+			.col-xs-6
+				%label Cap Rate
 
-.row
-	.col-xs-2
-		%label IRR
+			.col-xs-6
+				= number_with_precision(@property.cap_rate(@property.num_years_to_hold + 1) * 100, :precision => 2) + '%'
+		.row
+			.col-xs-6
+				%label IRR
 
-	.col-xs-1
-		= number_with_precision(@property.irr_for_prop * 100, precision: 2, delimiter: ',') + '%'
+			.col-xs-6
+				= number_with_precision(@property.irr_for_prop * 100, precision: 2, delimiter: ',') + '%'
+		
+		-#
+			.row
+				.col-xs-6
+					%label Actual Purchase Price
+				.col-xs-6
+					= '$' + number_with_precision(@property.sale_price, :delimiter => ',', :precision => 2)
+
+			.row
+				.col-xs-6
+					%label
+						Estimated Purchase Price
+						%image{ :src => 'https://image.freepik.com/free-icon/question-mark-on-a-circular-black-background_318-41916.png', :style => 'width: 10px; height: 10px;', 'data-toggle' => 'tooltip', :title => 'based on NOI/Cap Rate'  }
+				.col-xs-6
+					= '$' + number_with_precision(@property.noi(1) / @property.cap_rate(1), :delimiter => ',', :precision => 2)
+
+			.row
+				.col-xs-6
+					%label
+						Estimated Sale Price
+						%image{ :src => 'https://image.freepik.com/free-icon/question-mark-on-a-circular-black-background_318-41916.png', :style => 'width: 10px; height: 10px;', 'data-toggle' => 'tooltip', :title => 'based on NOI/Cap Rate'  }
+				.col-xs-6
+					= '$' + number_with_precision(@property.new_sale_price, :delimiter => ',', :precision => 2)
 
 .row
 	&nbsp;
