@@ -24,6 +24,8 @@
 #
 
 class Property < ActiveRecord::Base
+  after_initialize :setup_cache
+
   RESIDENTIAL_DEPRECIATION_YEARS = 27.5
   COMMERCIAL_DEPRECIATION_YEARS = 39
   CAP_GAIN_TAX_RATE_PERCENT = 15
@@ -33,12 +35,29 @@ class Property < ActiveRecord::Base
     :vacancy_percent, :loan_interest_percent, :loan_length_years, :sales_commission_percent, :num_years_to_hold,
     :rent_price_increase_percent, :tax_rate_percent
 
+  attr_accessor :cache
+
+  def setup_cache
+    self.cache = {}
+    (1..2100).each do |year|
+      self.cache[year] = {}
+    end
+  end
+
   def after_tax_cash_flow(year)
-    after_tax_income(year) + depreciation - principal(year)
+    if not self.cache[year][:after_tax_cash_flow]
+      val = after_tax_income(year) + depreciation - principal(year)
+      self.cache[year][:after_tax_cash_flow] = val
+    end
+    self.cache[year][:after_tax_cash_flow]
   end
 
   def after_tax_income(year)
-    pre_tax_income(year) - taxes(year)
+    if not self.cache[year][:after_tax_income]
+      val = pre_tax_income(year) - taxes(year)
+      self.cache[year][:after_tax_income] = val
+    end
+    self.cache[year][:after_tax_income]
   end
 
   def after_tax_proceeds
@@ -59,7 +78,11 @@ class Property < ActiveRecord::Base
 
   # TODO: rename sale_price to purchase_price
   def cash_on_cash(year)
-    after_tax_cash_flow(year) / down_payment.to_f
+    if not self.cache[year][:cash_on_cash]
+      val = after_tax_cash_flow(year) / down_payment.to_f
+      self.cache[year][:cash_on_cash] = val
+    end
+    self.cache[year][:cash_on_cash]
   end
 
   def depreciable_assets_cost
@@ -89,31 +112,33 @@ class Property < ActiveRecord::Base
   end
 
   def interest_expense(year)
-    balance = sale_price - down_payment
-    monthly_rate = (loan_interest_percent / 100) / 12.to_f
-    periods = loan_length_years * 12
-    end_period = year * 12
-    start_period = end_period - 11
+    if not self.cache[year][:interest_expense]
+      balance = sale_price - down_payment
+      monthly_rate = (loan_interest_percent / 100) / 12.to_f
+      periods = loan_length_years * 12
+      end_period = year * 12
+      start_period = end_period - 11
 
-    term = (1 + monthly_rate) ** periods
-    
-    monthly_payment = balance * (monthly_rate * term / (term - 1))
-    
-    current_period = 1
-    total_interest = 0
-    while balance > 0 && current_period <= (year * 12)
-      interest_payment = balance * monthly_rate
+      term = (1 + monthly_rate) ** periods
       
-      if current_period >= start_period && current_period <= end_period
-        total_interest += interest_payment
+      monthly_payment = balance * (monthly_rate * term / (term - 1))
+      
+      current_period = 1
+      total_interest = 0
+      while balance > 0 && current_period <= (year * 12)
+        interest_payment = balance * monthly_rate
+        
+        if current_period >= start_period && current_period <= end_period
+          total_interest += interest_payment
+        end
+
+        principal_payment = monthly_payment - interest_payment
+        balance = balance - principal_payment
+        current_period += 1
       end
-
-      principal_payment = monthly_payment - interest_payment
-      balance = balance - principal_payment
-      current_period += 1
+      self.cache[year][:interest_expense] = total_interest
     end
-
-    total_interest
+    self.cache[year][:interest_expense]
   end
 
   def money_loaned
@@ -130,42 +155,57 @@ class Property < ActiveRecord::Base
   end
 
   def noi(year)
-    gross_income(year) - vacancy(year) - operating_expenses(year)
+    if not self.cache[year][:noi]
+      val = gross_income(year) - vacancy(year) - operating_expenses(year)
+      self.cache[year][:noi] = val
+    end
+    self.cache[year][:noi]
   end
 
   def operating_expenses(year)
-    gross_income(year) * (operating_expenses_percent / 100)
+    if not self.cache[year][:operating_expenses]
+      val = gross_income(year) * (operating_expenses_percent / 100)
+      self.cache[year][:operating_expenses] = val
+    end
+    self.cache[year][:operating_expenses]
   end
 
   def pre_tax_income(year)
-    noi(year) - depreciation - interest_expense(year)
+    if not self.cache[year][:pre_tax_income]
+      val = noi(year) - depreciation - interest_expense(year)
+      self.cache[year][:pre_tax_income] = val
+    end
+    self.cache[year][:pre_tax_income]
   end
 
   def principal(year)
-    balance = sale_price - down_payment
-    monthly_rate = (loan_interest_percent / 100) / 12.to_f
-    periods = loan_length_years * 12
-    end_period = year * 12
-    start_period = end_period - 11
+    if not self.cache[year][:principal]
+      balance = sale_price - down_payment
+      monthly_rate = (loan_interest_percent / 100) / 12.to_f
+      periods = loan_length_years * 12
+      end_period = year * 12
+      start_period = end_period - 11
 
-    term = (1 + monthly_rate) ** periods
-    
-    monthly_payment = balance * (monthly_rate * term / (term - 1))
-    
-    current_period = 1
-    total_principal = 0
-    while balance > 0 && current_period <= (year * 12)
-      interest_payment = balance * monthly_rate
+      term = (1 + monthly_rate) ** periods
       
-      principal_payment = monthly_payment - interest_payment
-      if current_period >= start_period && current_period <= end_period
-        total_principal += principal_payment
+      monthly_payment = balance * (monthly_rate * term / (term - 1))
+      
+      current_period = 1
+      total_principal = 0
+      while balance > 0 && current_period <= (year * 12)
+        interest_payment = balance * monthly_rate
+        
+        principal_payment = monthly_payment - interest_payment
+        if current_period >= start_period && current_period <= end_period
+          total_principal += principal_payment
+        end
+        balance = balance - principal_payment
+        current_period += 1
       end
-      balance = balance - principal_payment
-      current_period += 1
-    end
 
-    total_principal
+      self.cache[year][:principal] = total_principal
+    end
+    self.cache[year][:principal]    
   end
 
   def recapture
@@ -177,7 +217,11 @@ class Property < ActiveRecord::Base
   end
 
   def taxes(year)
-    pre_tax_income(year) * (tax_rate_percent.to_f / 100)
+    if not self.cache[year][:taxes]
+      val = pre_tax_income(year) * (tax_rate_percent.to_f / 100)
+      self.cache[year][:taxes] = val
+    end
+    self.cache[year][:taxes]
   end
 
   def vacancy(year)
