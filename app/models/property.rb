@@ -189,4 +189,43 @@ class Property < ActiveRecord::Base
     gross_income(year) * (vacancy_percent / 100)
   end
 
+  def irr_for_prop
+    cash_flows = []
+
+    # First cash flow is just the down payment
+    cash_flows << -down_payment
+
+    # Use all of the A/T cash flows until you sell the house
+    (1..(num_years_to_hold - 1)).each do |year|
+      cash_flows << after_tax_cash_flow(year)
+    end
+
+    cash_flows << after_tax_cash_flow(num_years_to_hold) + after_tax_proceeds
+
+    irr(0.0, 100.0, cash_flows)
+  end
+
+  def irr(min_rate, max_rate, amounts)
+    range = max_rate - min_rate
+    raise "No solution" if range <= Float::EPSILON * 2
+
+    rate = range.fdiv(2) + min_rate
+    present_value = present_value_of_series(rate, amounts)
+
+    if present_value > 0
+      irr(rate, max_rate, amounts)
+    elsif present_value < -1
+      irr(min_rate, rate, amounts)
+    else
+      rate
+    end
+  end
+
+  def present_value_of_series(rate, amounts)
+    amounts.each_with_index.reduce(0) do |sum, (amount, index)|
+      sum + amount / (rate + 1)**index
+    end
+  end
+
+
 end

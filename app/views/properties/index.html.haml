@@ -29,10 +29,10 @@
                         %th NOI
                         %th Cap Rate
                         %th Pre-tax Income
-                        %th NPV
+                        -# %th NPV
                         %th IRR
-                        %th ROI
-                        %th ROE
+                        -# %th ROI
+                        -# %th ROE
                         %th Cash on Cash
                         %th A/T Proceeds
                         %th Link
@@ -58,11 +58,13 @@
                                 = number_with_precision(property.cap_rate(property.num_years_to_hold + 1) * 100, :precision => 2) + '%'
                             %td 
                                 = '$' + number_with_precision(property.pre_tax_income(property.num_years_to_hold), :precision => 0)
+                            -# %td
                             %td
+                                = number_with_precision(property.irr_for_prop * 100, precision: 2, delimiter: ',') + '%'
+                            -# %td
+                            -# %td
                             %td
-                            %td
-                            %td
-                            %td
+                                = number_with_precision(property.cash_on_cash(property.num_years_to_hold) * 100, precision: 2, delimiter: ',') + '%'
                             %td
                                 = '$' + number_with_precision(property.after_tax_proceeds, :delimiter => ',', :precision => 0)
                             %td

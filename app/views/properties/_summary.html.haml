@@ -62,6 +62,24 @@
 	.col-xs-1
 		= '$' + number_with_precision(@property.after_tax_proceeds, :delimiter => ',', :precision => 2)
 
+-#
+	.row
+		.col-xs-2
+			%label NPV
+
+		.col-xs-1
+			= '$' 
+
+.row
+	&nbsp;
+
+.row
+	.col-xs-2
+		%label IRR
+
+	.col-xs-1
+		= number_with_precision(@property.irr_for_prop * 100, precision: 2, delimiter: ',') + '%'
+
 .row
 	&nbsp;
 .row
