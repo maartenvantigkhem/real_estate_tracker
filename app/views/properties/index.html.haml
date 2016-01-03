@@ -24,10 +24,11 @@
                         %th Address
                         %th Purchase Price
                         %th Monthly Rental Income
+                        %th NOI
                         %th Monthly Rent / Purchase Price (1% Rule)
                         %th Cap Rate
-                        %th IRR
                         %th Cash on Cash
+                        %th IRR
                         %th A/T Proceeds
                         %th Link
                         %th Actions
@@ -43,13 +44,15 @@
                             %td 
                                 = '$' + number_with_delimiter(property.monthly_rental_income.to_i, :delimiter => ',')
                             %td
+                                = '$' + number_with_precision(property.noi(property.num_years_to_hold), :delimiter => ',', :precision => 0)
+                            %td
                                 = number_with_precision((property.monthly_rental_income / property.sale_price) * 100, :precision => 2) + '%'
                             %td
                                 = number_with_precision(property.cap_rate(property.num_years_to_hold + 1) * 100, :precision => 2) + '%'
                             %td
-                                = number_with_precision(property.irr_for_prop * 100, precision: 2, delimiter: ',') + '%'
-                            %td
                                 = number_with_precision(property.cash_on_cash(property.num_years_to_hold) * 100, precision: 2, delimiter: ',') + '%'
+                            %td
+                                = number_with_precision(property.irr_for_prop * 100, precision: 2, delimiter: ',') + '%'
                             %td
                                 = '$' + number_with_precision(property.after_tax_proceeds, :delimiter => ',', :precision => 0)
                             %td
